@@ -1,33 +1,21 @@
-/*
-*  kernel.c
-*/
-void kmain(void)
+#define KERNEL_MAGIC_NUMBER 0x2BADB002
+
+#include "kernel_video.h"
+
+extern "C" void kmain( void* mbd, unsigned int magic )
 {
-	const char *str = "[kernel@distro] Welcome to Z340x. Up with 'live, singleuser'.";
-	char *vidptr = (char*)0xb8000; 	//video mem begins here.
-	unsigned int i = 0;
-	unsigned int j = 0;
+if ( magic != KERNEL_MAGIC_NUMBER )
+{
+kvideo_write_char('n');
+kvideo_write_str((char*)"Dako Attak! The magic number is invalid!");
 
-	/* this loops clears the screen
-	* there are 25 lines each of 80 columns; each element takes 2 bytes */
-	while(j < 80 * 25 * 2) {
-		/* blank character */
-		vidptr[j] = ' ';
-		/* attribute-byte - light grey on black screen */
-		vidptr[j+1] = 0x07; 		
-		j = j + 2;
-	}
+return;
+}
 
-	j = 0;
 
-	/* this loop writes the string to video memory */
-	while(str[j] != '\0') {
-		/* the character's ascii */
-		vidptr[i] = str[j];
-		/* attribute-byte: give character black bg and light grey fg */
-		vidptr[i+1] = 0x07;
-		++j;
-		i = i + 2;
-	}
-	return;
+// Locked and Loaded
+kvideo_write_char('n');
+kvideo_write_str((char*)"[Z340x@live] Welcome to Z340x");
+kvideo_write_char('n');
+kvideo_write_str((char*)"[Z340x@live] Distrobuted as Z340x by ConJoined, booted live");
 }
