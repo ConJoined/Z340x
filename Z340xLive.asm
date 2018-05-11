@@ -20,6 +20,7 @@ start:
 	text_string db '[nootloader@core] Ready', 0
 	text_string db '[Z340x@Z340x] Welcome to Z340x - Boot Conditions: live, single-user...', 0 		; Welcome
 	text_string db '[Z340x@Z340x] Distrobution: Z340x', 0 		; Say Distrobution
+	extern Z34oxLive
 
 
 print_string:			; Routine: output string in SI to screen
